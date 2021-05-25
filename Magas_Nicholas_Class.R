@@ -13,7 +13,7 @@ set.seed(42)
 loan <- read_csv("data/train.csv") %>% 
   mutate(hi_int_prncp_pd = factor(hi_int_prncp_pd))
 
-loan_test <- read_csv("data/test.csv")
+final_loan_test <- read_csv("data/test.csv")
 
 
 
@@ -133,9 +133,9 @@ predict(bt_results, new_data = loan_test) %>%
 
 
 
-# submission code
+# submission code for rf model
 
-rf_final_predictions <- predict(rf_results, new_data = loan_test)
+rf_final_predictions <- predict(rf_results, new_data = final_loan_test)
 
 
 
@@ -147,6 +147,32 @@ submit <- read_csv("data/sample submission.csv") %>%
 
 
 write_csv(file = "class_results.csv", submit)
+
+
+
+
+
+
+
+
+
+# submission code for bt model
+
+bt_final_predictions <- predict(bt_results, new_data = final_loan_test)
+
+
+
+submit_bt <- read_csv("data/sample submission.csv") %>% 
+  bind_cols(bt_final_predictions) %>% 
+  select(-Category) %>% 
+  rename(Category = .pred_class)
+
+
+
+write_csv(file = "class_results2.csv", submit_bt)
+
+
+
 
 
 

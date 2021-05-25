@@ -4,6 +4,8 @@
 library(tidyverse)
 library(tidymodels)
 
+set.seed(42)
+
 # load required objects ----
 load(file = "data/loan_folds.rda")
 load(file = "data/loan_recipe.rda")
