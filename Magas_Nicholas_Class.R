@@ -13,7 +13,7 @@ set.seed(42)
 loan <- read_csv("data/train.csv") %>% 
   mutate(hi_int_prncp_pd = factor(hi_int_prncp_pd))
 
-
+loan_test <- read_csv("data/test.csv")
 
 
 
@@ -118,3 +118,37 @@ predict(bt_results, new_data = loan_test) %>%
   bind_cols(loan_test %>% select(hi_int_prncp_pd)) %>%
   bind_cols(predict(bt_results, new_data = loan_test, type = "prob")) %>%
   metrics(truth = hi_int_prncp_pd, estimate = .pred_class, .pred_yes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# submission code
+
+rf_final_predictions <- predict(rf_results, new_data = loan_test)
+
+
+
+submit <- read_csv("data/sample submission.csv") %>% 
+  bind_cols(rf_final_predictions) %>% 
+  select(-Category) %>% 
+  rename(Category = .pred_class)
+
+
+
+write_csv(file = "class_results.csv", submit)
+
+
+
+
+
